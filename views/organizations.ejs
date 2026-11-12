@@ -1,33 +1,19 @@
 <%- include('partials/header') %>
 
 <main class="container">
-  <h1><%= title %></h1>
-  <p>Discover non-profit and community organizations we collaborate with.</p>
+    <h1><%= title %></h1>
+    <p>Here are a few of our partner organizations:</p>
 
-  <div class="organizations-grid" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
-    
-    <!-- Organization 1 -->
-    <article class="org-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 300px;">
-      <img src="/images/logo.png" alt="BYU-Pathway Worldwide Logo" style="width: 100%; height: auto; border-radius: 4px;" />
-      <h2>BYU-Pathway Worldwide</h2>
-      <p>Providing accessible higher education online to students around the globe with faith-based values.</p>
-    </article>
-
-    <!-- Organization 2 -->
-    <article class="org-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 300px;">
-      <img src="/images/logo.png" alt="TechTies Initiative Logo" style="width: 100%; height: auto; border-radius: 4px;" />
-      <h2>TechTies Initiative</h2>
-      <p>Connecting software development students with local industry opportunities and tech conferences.</p>
-    </article>
-
-    <!-- Organization 3 -->
-    <article class="org-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 300px;">
-      <img src="/images/logo.png" alt="Community Auto Care Network Logo" style="width: 100%; height: auto; border-radius: 4px;" />
-      <h2>Community Auto Care Network</h2>
-      <p>Supporting local automotive workshops with digital transformation and customer service tools.</p>
-    </article>
-
-  </div>
+    <div class="organizations-grid" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+        <% organizations.forEach(organization => { %>
+            <article class="org-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 300px;">
+                <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo" style="width: 100%; height: auto; border-radius: 4px;" />
+                <h2><%= organization.name %></h2>
+                <p><%= organization.description %></p>
+                <p><strong>Contact:</strong> <%= organization.contact_email %></p>
+            </article>
+        <% }); %>
+    </div>
 </main>
 
 <%- include('partials/footer') %>

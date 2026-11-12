@@ -1,43 +1,51 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || 'production';
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-const handleHomeRoute = (req, res) => {
+app.get('/', (req, res) => {
     res.render('index', { title: 'Home' });
-};
+});
 
-const handleOrganizationsRoute = (req, res) => {
-    res.render('organizations', { title: 'Organizations' });
-};
+app.get('/organizations', async (req, res) => {
+    const organizations = await getAllOrganizations();
+    const title = 'Our Partner Organizations';
+    res.render('organizations', { title, organizations });
+});
 
-const handleProjectsRoute = (req, res) => {
-    res.render('projects', { title: 'Service Projects' });
-};
+app.get('/projects', async (req, res) => {
+    const projects = await getAllProjects();
+    const title = 'Service Projects';
+    res.render('projects', { title, projects });
+});
 
-const handleCategoriesRoute = (req, res) => {
-    res.render('categories', { title: 'Service Project Categories' });
-};
+app.get('/categories', async (req, res) => {
+    const categories = await getAllCategories();
+    const title = 'Service Project Categories';
+    res.render('categories', { title, categories });
+});
 
-
-app.get('/', handleHomeRoute);
-app.get('/organizations', handleOrganizationsRoute);
-app.get('/projects', handleProjectsRoute);
-app.get('/categories', handleCategoriesRoute);
-
-
-app.listen(port, () => {
-    console.log(`Server is running smoothly on http://localhost:3000`);
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });

@@ -1,15 +1,14 @@
 <%- include('partials/header') %>
 
-<section class="page-section">
+<main class="container">
     <h1><%= title %></h1>
-    <p>Explore the categories of service projects available in our community:</p>
-    
-    <ul class="category-list">
-        <li class="category-card">Environmental</li>
-        <li class="category-card">Educational</li>
-        <li class="category-card">Community Service</li>
-        <li class="category-card">Health and Wellness</li>
+    <p>Browse service projects by category:</p>
+
+    <ul>
+        <% categories.forEach(category => { %>
+            <li><strong><%= category.name %></strong></li>
+        <% }); %>
     </ul>
-</section>
+</main>
 
 <%- include('partials/footer') %>

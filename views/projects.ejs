@@ -1,8 +1,20 @@
 <%- include('partials/header') %>
 
-<section class="page-section">
+<main class="container">
     <h1><%= title %></h1>
-    <p>Find upcoming service projects and volunteer opportunities near you.</p>
-</section>
+    <p>Explore upcoming service opportunities in our community:</p>
+
+    <div class="projects-grid" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+        <% projects.forEach(project => { %>
+            <article class="project-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 320px;">
+                <h2><%= project.title %></h2>
+                <p><strong>Organization:</strong> <%= project.organization_name %></p>
+                <p><%= project.description %></p>
+                <p><strong>Location:</strong> <%= project.location %></p>
+                <p><strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString() %></p>
+            </article>
+        <% }); %>
+    </div>
+</main>
 
 <%- include('partials/footer') %>
